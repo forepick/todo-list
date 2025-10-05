@@ -1,44 +1,94 @@
-/* Polished premium styling for ToDo SPA */
-:root{--bg:#0b1220;--card:#071226;--muted:#98a2b3;--accent:#60a5fa;--accent-2:#7dd3fc;--glass:rgba(255,255,255,0.04);--success:#34d399;--danger:#fb7185}
+/* Colorful blurred background + animations */
+:root{
+  --bg-a:#071226;
+  --bg-b:#0b1228;
+  --card:rgba(255,255,255,0.06);
+  --muted:rgba(230,238,248,0.75);
+  --glass:rgba(255,255,255,0.06);
+  --accent1:#ff7ab6; /* pink */
+  --accent2:#7dd3fc; /* cyan */
+  --accent3:#a78bfa; /* purple */
+  --success:#34d399;
+  --danger:#fb7185;
+}
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:radial-gradient(1000px 600px at 10% 10%,#071226 0%,var(--bg) 35%),linear-gradient(180deg,#071226 0%,#071226 100%);color:#e6eef8;display:flex;align-items:center;justify-content:center;padding:3rem}
-.app{width:100%;max-width:880px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:18px;backdrop-filter:blur(8px) saturate(120%);box-shadow:0 12px 50px rgba(2,6,23,0.6);padding:2.2rem;border:1px solid rgba(255,255,255,0.03)}
-.header h1{margin:0;font-size:1.9rem;letter-spacing:0.4px}
+body{
+  margin:0;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:3rem;
+  background:linear-gradient(135deg,var(--bg-a),var(--bg-b));
+  overflow:hidden;
+}
+
+/* Animated colorful blobs behind the app */
+.bg-blobs{
+  position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(80px) saturate(120%);
+}
+.blob{position:absolute;width:520px;height:520px;border-radius:50%;opacity:0.55;mix-blend-mode:screen;transform:translate3d(0,0,0);animation:float 12s ease-in-out infinite}
+.blob.b1{background:radial-gradient(circle at 30% 30%,var(--accent2),transparent 40%);left:-10%;top:-20%;animation-duration:14s}
+.blob.b2{background:radial-gradient(circle at 70% 60%,var(--accent1),transparent 35%);right:-5%;top:-10%;animation-duration:18s}
+.blob.b3{background:radial-gradient(circle at 50% 40%,var(--accent3),transparent 45%);left:20%;bottom:-15%;animation-duration:16s}
+
+@keyframes float{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.03)}100%{transform:translateY(0) scale(1)}}
+
+.app{position:relative;z-index:2;width:100%;max-width:920px;padding:2.2rem;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02));backdrop-filter:blur(10px) saturate(140%);box-shadow:0 18px 60px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.04)}
+.header h1{margin:0;font-size:2rem;color:white;letter-spacing:0.4px}
 .subtitle{margin:0;color:var(--muted);font-size:0.95rem}
-.todo-controls{margin-top:1.25rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-#add-form{flex:1;display:flex;align-items:center;gap:0.6rem}
-#new-todo{flex:1;padding:0.95rem 1.1rem;border-radius:14px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);color:inherit;font-size:1rem;outline:none;transition:box-shadow .18s ease,border-color .18s ease}
-#new-todo::placeholder{color:rgba(255,255,255,0.35)}
-#new-todo:focus{box-shadow:0 8px 26px rgba(96,165,250,0.12);border-color:var(--accent-2)}
-.add-btn{padding:0.75rem 1rem;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#04263b;border:none;border-radius:12px;cursor:pointer;font-weight:700}
+
+.todo-controls{margin-top:1.1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+#add-form{flex:1;display:flex;gap:0.6rem;align-items:center}
+#new-todo{flex:1;padding:0.9rem 1rem;border-radius:14px;border:1px solid rgba(255,255,255,0.05);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);color:inherit;font-size:1rem;outline:none;transition:box-shadow .18s ease,border-color .18s ease,transform .12s}
+#new-todo::placeholder{color:rgba(255,255,255,0.45)}
+#new-todo:focus{box-shadow:0 12px 40px rgba(96,165,250,0.12);border-color:rgba(125,211,252,0.18);transform:translateY(-2px)}
+.add-btn{padding:0.7rem 1rem;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent1),var(--accent3));color:#04263b;font-weight:700;cursor:pointer;box-shadow:0 8px 26px rgba(167,139,250,0.12);transition:transform .12s}
+.add-btn:active{transform:translateY(1px)}
+
 .filters{display:flex;gap:0.5rem}
-.filter-btn{background:transparent;border:1px solid rgba(255,255,255,0.02);padding:0.45rem 0.65rem;border-radius:10px;cursor:pointer;color:var(--muted);transition:all .15s}
-.filter-btn.active{background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.14);color:var(--accent)}
-.todo-list{list-style:none;padding:0;margin:1.15rem 0;max-height:540px;overflow:auto}
-.todo-item{display:flex;align-items:center;gap:0.9rem;padding:0.86rem;border-radius:14px;border:1px solid transparent;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
-.todo-item + .todo-item{margin-top:0.68rem}
-.checkbox{width:24px;height:24px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);display:inline-grid;place-items:center;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));transition:all .12s}
-.checkbox.checked{background:linear-gradient(180deg,var(--success),#16a34a);border-color:rgba(0,0,0,0.25);color:#00230b}
-.todo-item.completed .label{opacity:0.62;text-decoration:line-through}
+.filter-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:0.45rem 0.65rem;border-radius:10px;cursor:pointer;color:var(--muted);transition:all .15s}
+.filter-btn.active{background:linear-gradient(90deg,var(--accent2),var(--accent3));border-color:rgba(255,255,255,0.06);color:#071226}
+
+.todo-list{list-style:none;padding:0;margin:1.2rem 0;max-height:560px;overflow:auto}
+.todo-item{display:flex;align-items:center;gap:1rem;padding:0.9rem;border-radius:12px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg,rgba(255,255,255,0.015),transparent);transform-origin:left center;animation:enter .32s ease both}
+.todo-item + .todo-item{margin-top:0.6rem}
+
+/* entry animation */
+@keyframes enter{0%{opacity:0;transform:translateX(-12px) scale(.995)}100%{opacity:1;transform:none}}
+
+.checkbox{width:26px;height:26px;border-radius:9px;border:1px solid rgba(255,255,255,0.06);display:inline-grid;place-items:center;cursor:pointer;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));transition:all .18s, box-shadow .18s}
+.checkbox svg{width:16px;height:16px;display:block;opacity:0;transform:scale(.7);transition:all .18s}
+.checkbox.checked{background:linear-gradient(90deg,var(--accent2),var(--accent3));border-color:rgba(0,0,0,0.22);box-shadow:0 8px 20px rgba(125,211,252,0.08)}
+.checkbox.checked svg{opacity:1;transform:none}
+
+.todo-item.completed .label{opacity:0.6;text-decoration:line-through}
 .label{flex:1;color:inherit}
 .label[contenteditable]{padding:0.22rem 0.42rem;border-radius:8px}
+.label:focus{outline:none;box-shadow:0 8px 22px rgba(125,211,252,0.08)}
+
 .btns{display:flex;gap:0.42rem}
-.small-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:0.38rem;border-radius:8px;cursor:pointer;color:var(--muted)}
+.small-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:0.38rem;border-radius:8px;cursor:pointer;color:var(--muted);transition:transform .12s}
+.small-btn:hover{transform:translateY(-2px)}
 .small-btn.danger{border-color:rgba(251,113,133,0.18);color:var(--danger)}
+
 .footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.02);padding-top:0.95rem;margin-top:1.05rem}
 #count{color:var(--muted)}
 #clear-completed{background:transparent;border:none;color:var(--muted);cursor:pointer}
-/* scrollbar */
+
+/* subtle scrollbar */
 .todo-list::-webkit-scrollbar{width:10px}
 .todo-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02));border-radius:10px}
+
 /* focus states */
-button:focus, [contenteditable]:focus, input:focus{outline:none;box-shadow:0 8px 28px rgba(96,165,250,0.12)}
-@media (max-width:560px){
+button:focus, [contenteditable]:focus, input:focus{outline:none;box-shadow:0 12px 38px rgba(125,211,252,0.12)}
+
+@media (max-width:720px){
   body{padding:1.25rem}
   .app{padding:1rem}
-  .header h1{font-size:1.35rem}
+  .header h1{font-size:1.45rem}
   .subtitle{font-size:0.9rem}
   .filters{width:100%;justify-content:space-between}
 }
-.label{flex:1}
